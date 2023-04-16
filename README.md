@@ -44,6 +44,17 @@ Where [command] is one of the following:
   $ yarn start [command]
   ```
 
+# Test
+
+To run unit test, do the following:
+
+- Comment the last line of code `main()`
+- Run the following command
+
+```
+$ yarn test
+```
+
 ## Latest
 
 To get the latest portfolio value for each token in USD, run:
@@ -56,11 +67,11 @@ This will read transaction records from transactions.csv and display the portfol
 
 To get the latest portfolio value for a specific token in USD, run:
 
-    $ yarn start token <tokenSymbol>
+    $ yarn start token= <tokenSymbol>
 
 Replace `<tokenSymbol>` with the symbol of the token you want to get the valuation for. For example:xs
 
-    $ yarn start token BTC
+    $ yarn start token= BTC
 
 This will read transaction records from transactions.csv and display the portfolio valuation in USD for the specified token.
 
@@ -68,11 +79,11 @@ This will read transaction records from transactions.csv and display the portfol
 
 To get the portfolio value for each token in USD on a specific date, run:
 
-    $ yarn start date <date>
+    $ yarn start date= <date>
 
 Replace <date> with the date in the format YYYY-MM-DD. For example:
 
-    $ yarn start date 2022-01-01
+    $ yarn start date= 2022-01-01
 
 This will read transaction records from transactions.csv and display the portfolio valuation in USD for each token on the specified date.
 
