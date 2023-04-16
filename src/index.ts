@@ -22,7 +22,9 @@ commander.version("0.0.1");
  * @param tokens an array of tokens [BTC, ETH, XRP]
  * @returns The current exchange rate of tokens in USD
  */
-async function getExchangeRate(tokens: string[]): Promise<ExchangeRates> {
+export async function getExchangeRate(
+  tokens: string[]
+): Promise<ExchangeRates> {
   const apiUrl = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${tokens.join(
     ","
   )}&tsyms=USD`;
@@ -75,7 +77,7 @@ export async function* parseCSV(filePath: string) {
  * @param tokenFilter - Optional token filter to limit transactions to those involving the specified token.
  * @returns A promise that resolves to a map of token symbols to portfolio values.
  */
-async function processTransactions(
+export async function processTransactions(
   filePath: string,
   dateFilter?: Date,
   tokenFilter?: string
@@ -89,10 +91,11 @@ async function processTransactions(
     const amount = parseFloat(amountStr);
 
     // Skip transactions that don't match the filters
-    if (dateFilter && Number(timestampStr) > dateFilter.getTime()) {
-      continue;
-    }
-    if (tokenFilter && token !== tokenFilter) {
+    // Skip transactions that don't match the filters
+    if (
+      (dateFilter && Number(timestampStr) > dateFilter.getTime()) ||
+      (tokenFilter && token !== tokenFilter)
+    ) {
       continue;
     }
 
@@ -134,7 +137,7 @@ async function calculateValuation(
 /**
  * The main function that runs the command line interface and accepts user input to determine which portfolio valuation to display.
  */
-async function main() {
+export async function main() {
   commander
     .command("latest")
     .description("get latest portfolio value per token in USD")
@@ -145,7 +148,7 @@ async function main() {
     });
 
   commander
-    .command("token <tokenSymbol>")
+    .command("token= <tokenSymbol>")
     .description("get latest portfolio value for a given token in USD")
     .action(async (tokenSymbol: string) => {
       const portfolio = await processTransactions(
@@ -162,7 +165,7 @@ async function main() {
     });
 
   commander
-    .command("date <date>")
+    .command("date= <date>")
     .description("get portfolio value per token in USD on a given date")
     .action(async (date: string) => {
       const portfolio = await processTransactions(
@@ -174,7 +177,7 @@ async function main() {
     });
 
   commander
-    .command("date-token <date> <tokenSymbol>")
+    .command("date= <date> token= <tokenSymbol>")
     .description("get portfolio value of a given token in USD on a given date")
     .action(async (date: string, tokenSymbol: string) => {
       const portfolio = await processTransactions(
@@ -189,8 +192,10 @@ async function main() {
         console.log(`Token ${tokenSymbol} not found in portfolio.`);
       }
     });
-
-  commander.parse(process.argv);
+  const command = process.argv;
+  if (command) {
+    commander.parse(command);
+  }
 }
 
 main();

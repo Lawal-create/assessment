@@ -11,15 +11,8 @@
     "noUnusedLocals": false,
     "moduleResolution": "node",
     "baseUrl": "./src",
-    "paths": {
-      "@app/config/*": ["config/*"],
-      "@app/http/*": ["http/*"],
-      "@app/internal/*": ["internal/*"],
-      "@app/providers/*": ["providers/*"],
-      "@app/portfolios": ["portfolios"]
-    },
     "typeRoots": ["node_modules/@types", "typings"],
-    "types": ["node"],
+    "types": ["jest", "node"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
